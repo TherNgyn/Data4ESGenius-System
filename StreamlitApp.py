@@ -45,10 +45,10 @@ def calculate_esg_score(df):
                          'Level of water stress: freshwater withdrawal as a proportion of available freshwater resources',
                          'Population density']:
                 # Đảo ngược percentile cho các chỉ số mà giá trị thấp = hiệu suất tốt
-                result_df[f"{feature}_percentile"] = 1 - result_df[feature].rank(pct=True)
+                result_df[f"{feature}_percentile"] = 100 - result_df[feature]
             else:
                 # Percentile bình thường cho các chỉ số mà giá trị cao = hiệu suất tốt
-                result_df[f"{feature}_percentile"] = result_df[feature].rank(pct=True)
+                result_df[f"{feature}_percentile"] = result_df[feature]
     
     # 2. Phân loại chỉ số thành 3 nhóm E, S, G
     # Danh sách chỉ số môi trường (Environmental)
@@ -92,19 +92,19 @@ def calculate_esg_score(df):
     # 3. Tính điểm ESG (trung bình cộng có trọng số)
     # Điểm E - Environmental
     if e_percentile_features:
-        result_df['E_score'] = result_df[e_percentile_features].mean(axis=1)
+        result_df['E_score'] = result_df[e_percentile_features].mean(axis=1)/100
     else:
         result_df['E_score'] = np.nan
         
     # Điểm S - Social
     if s_percentile_features:
-        result_df['S_score'] = result_df[s_percentile_features].mean(axis=1)
+        result_df['S_score'] = result_df[s_percentile_features].mean(axis=1)/100
     else:
         result_df['S_score'] = np.nan
         
     # Điểm G - Governance
     if g_percentile_features:
-        result_df['G_score'] = result_df[g_percentile_features].mean(axis=1)
+        result_df['G_score'] = result_df[g_percentile_features].mean(axis=1)/100
     else:
         result_df['G_score'] = np.nan
     
@@ -131,16 +131,18 @@ def get_model():
         # Thử tải mô hình đã lưu
         model = joblib.load('esg_model.pkl')
         scaler = joblib.load('esg_scaler.pkl')
+        feature_order = joblib.load('esg_features.pkl') 
         st.success("Đã tải mô hình thành công!")
     except:
         st.warning("Không tìm thấy mô hình đã lưu. Bạn cần upload dữ liệu để huấn luyện mô hình mới.")
         model = None
         scaler = None
+        feature_order = None
     
-    return model, scaler
+    return model, scaler, feature_order
 
 # Tải mô hình
-model, scaler = get_model()
+model, scaler, feature_order = get_model()
 
 # Sidebar để chọn chế độ đánh giá
 st.sidebar.title("Tùy chọn")
@@ -351,48 +353,45 @@ if evaluation_mode == "Nhập dữ liệu thủ công":
         display_results(results)
         
         # Kiểm tra dự đoán bằng mô hình nếu có
-        if model is not None and scaler is not None:
+        if model is not None and scaler and feature_order is not None:
             try:
                 st.subheader("Dự đoán bằng mô hình học máy")
                 
                 # Đảm bảo dữ liệu có đúng các cột mà mô hình yêu cầu
-                if hasattr(model, 'feature_names_in_'):
-                    required_features = model.feature_names_in_
-                    st.write(f"Mô hình yêu cầu {len(required_features)} đặc trưng")
+                required_features = feature_order
+                st.write(f"Mô hình yêu cầu {len(required_features)} đặc trưng")
                     
-                    # Kiểm tra và hiển thị các cột thiếu
-                    missing_features = [f for f in required_features if f not in input_df.columns]
-                    if missing_features:
-                        st.warning(f"Thiếu {len(missing_features)} cột: {', '.join(missing_features[:5])}...")
+                # Kiểm tra và hiển thị các cột thiếu
+                missing_features = [f for f in required_features if f not in input_df.columns]
+                if missing_features:
+                    st.warning(f"Thiếu {len(missing_features)} cột: {', '.join(missing_features[:5])}...")
                     
-                    # Tạo dataframe mới với đúng các cột
-                    aligned_data = pd.DataFrame(index=input_df.index)
-                    for feature in required_features:
-                        if feature in input_df.columns:
-                            aligned_data[feature] = input_df[feature]
-                        else:
-                            aligned_data[feature] = 50.0  # Giá trị mặc định
+                # Tạo dataframe mới với đúng các cột
+                aligned_data = pd.DataFrame(index=input_df.index)
+                for feature in required_features:
+                    if feature in input_df.columns:
+                        aligned_data[feature] = input_df[feature]
+                    else:
+                        aligned_data[feature] = 50.0  # Giá trị mặc định
                     
-                    # Chuẩn hóa dữ liệu
-                    X_scaled = scaler.transform(aligned_data)
+                # Chuẩn hóa dữ liệu
+                X_scaled = scaler.transform(aligned_data)
                     
-                    # Dự đoán
-                    predicted_score_range = model.predict(X_scaled)
-                    predicted_proba = model.predict_proba(X_scaled)
+                # Dự đoán
+                predicted_score_range = model.predict(X_scaled)
+                predicted_proba = model.predict_proba(X_scaled)
                     
-                    # Hiển thị kết quả dự đoán
-                    st.success(f"Phân loại dự đoán: {predicted_score_range[0]}")
+                # Hiển thị kết quả dự đoán
+                st.success(f"Phân loại dự đoán: {predicted_score_range[0]}")
                     
-                    # Hiển thị xác suất
-                    st.write("Xác suất cho từng phân loại:")
-                    proba_df = pd.DataFrame(
-                        [predicted_proba[0]],
-                        columns=model.classes_
-                    )
-                    st.dataframe(proba_df)
-                else:
-                    st.warning("Mô hình không cung cấp danh sách đặc trưng. Không thể đảm bảo tính chính xác.")
-                    
+                # Hiển thị xác suất
+                st.write("Xác suất cho từng phân loại:")
+                proba_df = pd.DataFrame(
+                    [predicted_proba[0]],
+                    columns=model.classes_
+                )
+                st.dataframe(proba_df)
+
             except Exception as e:
                 st.error(f"Lỗi khi dự đoán: {e}")
                 st.error(f"Chi tiết lỗi: {str(e)}")
@@ -495,12 +494,20 @@ elif evaluation_mode == "Upload file dữ liệu":
                     feature_cols = [col for col in data.columns if not col.endswith('_percentile') 
                                 and col not in ['E_score', 'S_score', 'G_score', 'ESG_score', 'score_range']]
                     
-                    # Xử lý NaN
-                    X = data[feature_cols].fillna(data[feature_cols].mean())
+                    # # Xử lý NaN
+                    # X = data[feature_cols].fillna(data[feature_cols].mean())
                     
-                    # Chuẩn hóa dữ liệu
-                    X_scaled = scaler.transform(X)
-                    
+                    # # Chuẩn hóa dữ liệu
+                    # X_scaled = scaler.transform(X)
+                    if feature_order is not None:
+                        # Chỉ giữ đúng các cột mô hình yêu cầu, theo đúng thứ tự
+                        aligned_data = data.reindex(columns=feature_order, fill_value=50.0)
+                    else:
+                        # Fallback nếu không có file đặc trưng
+                        aligned_data = data[feature_cols].fillna(data[feature_cols].mean())
+
+                    X_scaled = scaler.transform(aligned_data)
+
                     # Dự đoán
                     predicted_score_range = model.predict(X_scaled)
                     predicted_proba = model.predict_proba(X_scaled)
