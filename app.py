@@ -15,17 +15,248 @@ warnings.filterwarnings("ignore")
 
 # Cài đặt trang
 st.set_page_config(
-    page_title="Công cụ đánh giá ESG",
+    page_title="DATA4ESGenius",
     page_icon="🌍",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Tiêu đề ứng dụng
-st.title("Công cụ đánh giá ESG (Environmental, Social, and Governance)")
-st.markdown("Nhập các chỉ số để đánh giá hiệu suất ESG của dự án")
 
+
+
+st.markdown("""
+<style>
+    .header-container {
+        background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .header-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: rotate 15s linear infinite;
+    }
+    
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .header-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+    
+    .logo-section {
+        flex-shrink: 0;
+    }
+    
+    .logo-image {
+        width: 120px;
+        height: auto;
+        border-radius: 50px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+    }
+    
+    .logo-image:hover {
+        transform: scale(1.05);
+    }
+    
+    .title-section {
+        flex: 1;
+        color: white;
+    }
+    
+    .main-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        line-height: 1.2;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+        margin: 0;
+        opacity: 0.95;
+        font-weight: 300;
+        line-height: 1.4;
+    }
+    
+    .esg-info-container {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        border: 1px solid rgba(102, 126, 234, 0.2);
+        border-radius: 15px;
+        padding: 0;
+        margin: 2rem 0;
+        overflow: hidden;
+    }
+    
+    .esg-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        margin: 0;
+        font-size: 1.3rem;
+        font-weight: 600;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .esg-header:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    }
+    
+    .esg-content {
+        padding: 2rem;
+        background: white;
+    }
+    
+    .esg-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .esg-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .esg-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+    }
+    
+    .esg-card.environmental {
+        border-left-color: #28a745;
+        background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, transparent 100%);
+    }
+    
+    .esg-card.social {
+        border-left-color: #007bff;
+        background: linear-gradient(135deg, rgba(0, 123, 255, 0.05) 0%, transparent 100%);
+    }
+    
+    .esg-card.governance {
+        border-left-color: #dc3545;
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.05) 0%, transparent 100%);
+    }
+    
+    .esg-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+    
+    .esg-card-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 0 0 1rem 0;
+        color: #333;
+    }
+    
+    .esg-card-content {
+        color: #666;
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+    
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .main-title {
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .esg-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns([1, 4])
+
+with col1:
+    st.image("ESG_Logo.png")
+
+with col2:
+    # Header 
+    st.markdown(f"""
+    <div class="header-container">
+        <div class="header-content">
+            <div class="title-section">
+                <h1 class="main-title">DATA4ESGenius</h1>
+                <p class="subtitle">Công cụ đánh giá chỉ số ESG thông minh - Phân tích hiệu suất bền vững với dữ liệu</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
+
+
+# ESG Information
+st.markdown("""
+<div class="esg-info-container">
+    <details>
+        <summary class="esg-header">
+            Thông tin về ESG (Environmental, Social, and Governance)
+        </summary>
+        <div class="esg-content">
+            <p style="font-size: 1.1rem; color: #333; margin-bottom: 1.5rem; text-align: center; font-style: italic;">
+                <strong>ESG</strong> là khung đánh giá tính bền vững và tác động xã hội của dự án, doanh nghiệp hoặc quốc gia 
+            </p>
+            <p>
+            1. <strong>Environmental (Môi trường):</strong> Đánh giá tác động đến môi trường tự nhiên như phát thải carbon, sử dụng năng lượng, quản lý chất thải, và bảo tồn tài nguyên thiên nhiên.<br>
+    2. <strong>Social (Xã hội):</strong> Xem xét các vấn đề xã hội như điều kiện lao động, quyền con người, đa dạng và hòa nhập, tác động đến cộng đồng địa phương.<br>
+    3. <strong>Governance (Quản trị):</strong> Đánh giá các khía cạnh về quản trị như minh bạch, trách nhiệm giải trình, chống tham nhũng, đạo đức kinh doanh.</p>
+        </div>
+    </details>
+</div>
+""", unsafe_allow_html=True)
 # Function để tính điểm ESG
+ # Hiển thị thông tin về ESG
+st.markdown("""
+            ### Phân loại hiệu suất ESG
+            - **First Quartile (0-25)**: Hiệu suất ESG kém
+            - **Second Quartile (26-50)**: Hiệu suất ESG khá
+            - **Third Quartile (51-75)**: Hiệu suất ESG tốt
+            - **Fourth Quartile (76-100)**: Hiệu suất ESG xuất sắc
+            """)
 def calculate_esg_score(df):
     """
     Tính điểm ESG từ các chỉ số và phân loại thành các score range
@@ -265,7 +496,7 @@ def display_results(results):
         """)
 
 # Chế độ nhập dữ liệu thủ công
-# Chế độ nhập dữ liệu thủ công
+
 if evaluation_mode == "Nhập dữ liệu thủ công":
     st.header("Nhập các chỉ số ESG")
     
@@ -337,6 +568,7 @@ if evaluation_mode == "Nhập dữ liệu thủ công":
         )
     
     # Tính điểm ESG khi nhấn nút
+    
     if st.button("Tính điểm ESG", key="manual_calc_button"):
         # Sử dụng giá trị từ session_state
         input_df = pd.DataFrame([st.session_state.all_values])
@@ -344,22 +576,20 @@ if evaluation_mode == "Nhập dữ liệu thủ công":
         # Hiển thị dữ liệu để kiểm tra
         st.write("Dữ liệu từ các thanh trượt:")
         st.dataframe(input_df)
+
         
         # Tính điểm ESG
         results = calculate_esg_score(input_df)
         
         # Hiển thị kết quả
-        st.header("Kết quả Đánh giá ESG")
-        display_results(results)
-        
-        # Kiểm tra dự đoán bằng mô hình nếu có
+       # Kiểm tra dự đoán bằng mô hình nếu có
         if model is not None and scaler and feature_order is not None:
             try:
-                st.subheader("Dự đoán bằng mô hình học máy")
+                st.subheader("Kết quả Đánh giá ESG bằng mô hình học máy")
                 
                 # Đảm bảo dữ liệu có đúng các cột mà mô hình yêu cầu
                 required_features = feature_order
-                st.write(f"Mô hình yêu cầu {len(required_features)} đặc trưng")
+               
                     
                 # Kiểm tra và hiển thị các cột thiếu
                 missing_features = [f for f in required_features if f not in input_df.columns]
@@ -395,6 +625,12 @@ if evaluation_mode == "Nhập dữ liệu thủ công":
             except Exception as e:
                 st.error(f"Lỗi khi dự đoán: {e}")
                 st.error(f"Chi tiết lỗi: {str(e)}")
+
+
+        st.header("Kết quả Đánh giá ESG bằng thống kê")
+        display_results(results)
+        
+        
 
 # Chế độ upload file dữ liệu
 elif evaluation_mode == "Upload file dữ liệu":
@@ -432,7 +668,54 @@ elif evaluation_mode == "Upload file dữ liệu":
                 results = calculate_esg_score(data)
                 
                 # Hiển thị kết quả tổng quan
-                st.header("Kết quả Đánh giá ESG")
+                # Nếu model đã được load, thực hiện dự đoán
+                if model is not None and scaler is not None:
+                    st.subheader("Kết quả Đánh giá ESG bằng mô hình học máy")
+                    
+                    # Lấy các cột đặc trưng gốc
+                    feature_cols = [col for col in data.columns if not col.endswith('_percentile') 
+                                and col not in ['E_score', 'S_score', 'G_score', 'ESG_score', 'score_range']]
+                    
+                    # # Xử lý NaN
+                    # X = data[feature_cols].fillna(data[feature_cols].mean())
+                    
+                    # # Chuẩn hóa dữ liệu
+                    # X_scaled = scaler.transform(X)
+                    if feature_order is not None:
+                        # Chỉ giữ đúng các cột mô hình yêu cầu, theo đúng thứ tự
+                        aligned_data = data.reindex(columns=feature_order, fill_value=50.0)
+                    else:
+                        # Fallback nếu không có file đặc trưng
+                        aligned_data = data[feature_cols].fillna(data[feature_cols].mean())
+
+                    X_scaled = scaler.transform(aligned_data)
+
+                    # Dự đoán
+                    predicted_score_range = model.predict(X_scaled)
+                    predicted_proba = model.predict_proba(X_scaled)
+                    
+                    # Hiển thị kết quả 
+                    pred_results = pd.DataFrame({
+                        'Actual_score_range': results['score_range'],
+                        'Predicted_score_range': predicted_score_range
+                    })
+                    
+      
+                    st.success(f"Phân loại dự đoán: {predicted_score_range[0]}")
+                    
+                    
+                    # Hiển thị xác suất dự đoán
+                    st.subheader("Xác suất thuộc về mỗi score range")
+                    
+                    proba_df = pd.DataFrame(
+                        predicted_proba, 
+                        columns=model.classes_,
+                        index=data.index if hasattr(data, 'index') else range(len(data))
+                    )
+                    
+                    st.dataframe(proba_df)
+
+                st.header("Kết quả Đánh giá ESG bằng thống kê")
                 
                 # Nếu có nhiều dòng dữ liệu
                 if len(results) > 1:
@@ -444,7 +727,7 @@ elif evaluation_mode == "Upload file dữ liệu":
                     
                     st.dataframe(result_table)
                     
-                    # Hiển thị biểu đồ xu hướng theo thời gian nếu có
+                    # Hiển thị biểu đồ xu hướng theo thời gian
                     if has_time_col:
                         st.subheader("Xu hướng điểm ESG theo thời gian")
                         
@@ -486,50 +769,7 @@ elif evaluation_mode == "Upload file dữ liệu":
                     # Hiển thị kết quả cho một dòng dữ liệu
                     display_results(results)
                 
-                # Nếu model đã được load, thực hiện dự đoán
-                if model is not None and scaler is not None:
-                    st.subheader("Dự đoán score range bằng mô hình học máy")
-                    
-                    # Lấy các cột đặc trưng gốc
-                    feature_cols = [col for col in data.columns if not col.endswith('_percentile') 
-                                and col not in ['E_score', 'S_score', 'G_score', 'ESG_score', 'score_range']]
-                    
-                    # # Xử lý NaN
-                    # X = data[feature_cols].fillna(data[feature_cols].mean())
-                    
-                    # # Chuẩn hóa dữ liệu
-                    # X_scaled = scaler.transform(X)
-                    if feature_order is not None:
-                        # Chỉ giữ đúng các cột mô hình yêu cầu, theo đúng thứ tự
-                        aligned_data = data.reindex(columns=feature_order, fill_value=50.0)
-                    else:
-                        # Fallback nếu không có file đặc trưng
-                        aligned_data = data[feature_cols].fillna(data[feature_cols].mean())
-
-                    X_scaled = scaler.transform(aligned_data)
-
-                    # Dự đoán
-                    predicted_score_range = model.predict(X_scaled)
-                    predicted_proba = model.predict_proba(X_scaled)
-                    
-                    # Hiển thị kết quả dự đoán
-                    pred_results = pd.DataFrame({
-                        'Actual_score_range': results['score_range'],
-                        'Predicted_score_range': predicted_score_range
-                    })
-                    
-                    st.dataframe(pred_results)
-                    
-                    # Hiển thị xác suất dự đoán
-                    st.subheader("Xác suất thuộc về mỗi score range")
-                    
-                    proba_df = pd.DataFrame(
-                        predicted_proba, 
-                        columns=model.classes_,
-                        index=data.index if hasattr(data, 'index') else range(len(data))
-                    )
-                    
-                    st.dataframe(proba_df)
+                
 
         except Exception as e:
             st.error(f"Lỗi khi xử lý file: {e}")
@@ -634,33 +874,26 @@ else:
         except Exception as e:
             st.error(f"Lỗi khi xử lý file: {e}")
 
-# Hiển thị thông tin về ESG
-with st.expander("Thông tin về ESG"):
-    st.markdown("""
-    ### Environmental, Social, and Governance (ESG)
-    
-    **ESG** là một khung đánh giá tính bền vững và tác động xã hội của một dự án, doanh nghiệp hoặc quốc gia, bao gồm ba trụ cột:
-    
-    1. **Environmental (Môi trường):** Đánh giá tác động đến môi trường tự nhiên như phát thải carbon, sử dụng năng lượng, quản lý chất thải, và bảo tồn tài nguyên thiên nhiên.
-    
-    2. **Social (Xã hội):** Xem xét các vấn đề xã hội như điều kiện lao động, quyền con người, đa dạng và hòa nhập, tác động đến cộng đồng địa phương.
-    
-    3. **Governance (Quản trị):** Đánh giá các khía cạnh về quản trị như minh bạch, trách nhiệm giải trình, chống tham nhũng, đạo đức kinh doanh.
-    
-    ### Phân loại score range:
-    
-    - **First Quartile (0-25)**: Hiệu suất ESG kém
-    - **Second Quartile (26-50)**: Hiệu suất ESG khá
-    - **Third Quartile (51-75)**: Hiệu suất ESG tốt
-    - **Fourth Quartile (76-100)**: Hiệu suất ESG xuất sắc
-    """)
+
 
 # Footer
 st.markdown("---")
 st.markdown(
     """
-    <div style='text-align: center'>
-        <p>Developed by Data4ESGenius Team | ESG Evaluation Tool © 2023</p>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <div style='text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;'>
+        <p style='margin: 0 0 0.5rem 0; font-weight: 600;'>Data4ESGenius Team</p>
+        <div style='margin: 0.5rem 0;'>
+            <a href="https://www.facebook.com/people/Data4ESGenius/61577691633847/" target="_blank" 
+               style="margin: 0 10px; text-decoration: none; color: #1877f2;">
+                <i class="fab fa-facebook"></i> Data4ESGenius
+            </a>
+            <a href="mailto:data4esgenius@gmail.com" 
+               style="margin: 0 10px; text-decoration: none; color: #ea4335;">
+                <i class="fas fa-envelope"></i> data4esgenius@gmail.com
+            </a>
+        </div>
+        <p style='margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;'>ESG Evaluation Tool © 2025</p>
     </div>
     """, 
     unsafe_allow_html=True
