@@ -22,9 +22,8 @@ st.set_page_config(
 )
 
 
-
-
-st.markdown("""
+st.markdown(
+    """
 <style>
     .header-container {
         background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
@@ -127,6 +126,11 @@ st.markdown("""
     .esg-content {
         padding: 2rem;
         background: white;
+        color: #333333; /* Slightly lighter dark color for the body text */
+    }
+
+    .esg-content p {
+    line-height: 1.6; /* Improves readability */
     }
     
     .esg-grid {
@@ -205,7 +209,9 @@ st.markdown("""
         }
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 col1, col2 = st.columns([1, 4])
 
@@ -226,30 +232,31 @@ with col2:
     """, unsafe_allow_html=True)
 
 
-
-
-
 # ESG Information
-st.markdown("""
+st.markdown(
+    """
 <div class="esg-info-container">
     <details>
         <summary class="esg-header">
             Thông tin về ESG (Environmental, Social, and Governance)
         </summary>
         <div class="esg-content">
-            <p style="font-size: 1.1rem; color: #333; margin-bottom: 1.5rem; text-align: center; font-style: italic;">
-                <strong>ESG</strong> là khung đánh giá tính bền vững và tác động xã hội của dự án, doanh nghiệp hoặc quốc gia 
+            <p style="font-size: 1.1rem; text-align: center; font-style: italic;">
+                <strong>ESG</strong> là khung đánh giá tính bền vững và tác động xã hội của dự án, doanh nghiệp hoặc quốc gia.
             </p>
             <p>
-            1. <strong>Environmental (Môi trường):</strong> Đánh giá tác động đến môi trường tự nhiên như phát thải carbon, sử dụng năng lượng, quản lý chất thải, và bảo tồn tài nguyên thiên nhiên.<br>
-    2. <strong>Social (Xã hội):</strong> Xem xét các vấn đề xã hội như điều kiện lao động, quyền con người, đa dạng và hòa nhập, tác động đến cộng đồng địa phương.<br>
-    3. <strong>Governance (Quản trị):</strong> Đánh giá các khía cạnh về quản trị như minh bạch, trách nhiệm giải trình, chống tham nhũng, đạo đức kinh doanh.</p>
+                1. <strong>Environmental (Môi trường):</strong> Đánh giá tác động đến môi trường tự nhiên như phát thải carbon, sử dụng năng lượng, quản lý chất thải, và bảo tồn tài nguyên thiên nhiên.<br>
+                2. <strong>Social (Xã hội):</strong> Xem xét các vấn đề xã hội như điều kiện lao động, quyền con người, đa dạng và hòa nhập, tác động đến cộng đồng địa phương.<br>
+                3. <strong>Governance (Quản trị):</strong> Đánh giá các khía cạnh về quản trị như minh bạch, trách nhiệm giải trình, chống tham nhũng, đạo đức kinh doanh.
+            </p>
         </div>
     </details>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 # Function để tính điểm ESG
- # Hiển thị thông tin về ESG
+# Hiển thị thông tin về ESG
 st.markdown("""
             ### Phân loại hiệu suất ESG
             - **First Quartile (0-25)**: Hiệu suất ESG kém
@@ -873,7 +880,6 @@ else:
 
         except Exception as e:
             st.error(f"Lỗi khi xử lý file: {e}")
-
 
 
 # Footer
