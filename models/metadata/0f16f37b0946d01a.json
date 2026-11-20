@@ -1,0 +1,37 @@
+{
+  "indicator": "NOx total emissions",
+  "active_version": "v001",
+  "versions": [
+    {
+      "version": "v001",
+      "model_name": "IsolationForest with StandardScaler",
+      "target_indicator": "NOx total emissions",
+      "trained_at": "2026-11-20T21:23:15.948444+00:00",
+      "dataset_version": "4ee9308f31ccea54",
+      "training_period": [
+        "2019-Jan",
+        "2020-Dec"
+      ],
+      "number_of_records": 21,
+      "train_records": 14,
+      "validation_records": 3,
+      "test_records": 4,
+      "features": [
+        "log1p(value)"
+      ],
+      "hyperparameters": {
+        "n_estimators": 200,
+        "contamination": 0.1,
+        "random_state": 42
+      },
+      "evaluation": {
+        "validation_anomaly_rate": 0.0,
+        "test_anomaly_rate": 0.0,
+        "evaluation_note": "Unsupervised holdout alert rates; no labels are available, so accuracy metrics are not applicable."
+      },
+      "artifact": "anomaly_detection\\0f16f37b0946d01a\\v001.joblib",
+      "training_dataset": "data\\training\\0f16f37b0946d01a_v001.csv",
+      "status": "Active"
+    }
+  ]
+}

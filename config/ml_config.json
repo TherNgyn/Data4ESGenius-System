@@ -1,0 +1,14 @@
+{
+  "anomaly_min_observations": 18,
+  "train_fraction": 0.7,
+  "validation_fraction": 0.15,
+  "test_fraction": 0.15,
+  "isolation_forest_estimators": 200,
+  "isolation_forest_contamination": 0.1,
+  "zscore_threshold": 2.5,
+  "forecast_min_observations": 24,
+  "forecast_horizon": 6,
+  "sarima_order": [1, 1, 1],
+  "sarima_seasonal_order": [1, 1, 1, 12],
+  "random_state": 42
+}

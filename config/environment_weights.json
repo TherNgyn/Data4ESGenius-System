@@ -1,0 +1,69 @@
+{
+  "methodology_note": "Weights are configured, but score normalization is intentionally unavailable until approved external benchmarks or scoring thresholds are supplied.",
+  "groups": {
+    "GHG Emissions": {
+      "weight": 0.25,
+      "importance": "Very High",
+      "indicators": {
+        "GHG Scope 1": {"weight": 0.45, "aliases": ["total ghg scope1-coal", "total ghg scope1-coal gas"]},
+        "GHG Scope 2": {"weight": 0.30, "aliases": ["total ghg scope2"]},
+        "GHG Scope 3": {"weight": 0.10, "aliases": ["total ghg scope3", "scope 3"]},
+        "GHG Emission Intensity": {"weight": 0.10, "aliases": ["specific ghg scope1"]},
+        "GHG Reduction Rate": {"weight": 0.05, "aliases": ["ghg reduction rate"]}
+      }
+    },
+    "Energy Management": {
+      "weight": 0.25,
+      "importance": "Very High",
+      "indicators": {
+        "Total Energy Consumption": {"weight": 0.15, "aliases": ["total energy consumption"]},
+        "Non-renewable Energy Consumption": {"weight": 0.25, "aliases": ["total coal dv", "total coal yb", "total coal"]},
+        "Renewable Energy Ratio": {"weight": 0.20, "aliases": ["renewable energy ratio"]},
+        "Energy Intensity": {"weight": 0.30, "aliases": ["specific energy consumption"]},
+        "Energy Reduction Rate": {"weight": 0.10, "aliases": ["energy reduction rate"]}
+      }
+    },
+    "Water Management": {
+      "weight": 0.15,
+      "importance": "High",
+      "indicators": {
+        "Total Water Withdrawal": {"weight": 0.15, "aliases": ["total water withdrawal"]},
+        "Water Consumption": {"weight": 0.20, "aliases": ["water consumption"]},
+        "Water Intensity": {"weight": 0.30, "aliases": ["specific water withdrawal", "water intensity"]},
+        "Water Recycling / Reuse Rate": {"weight": 0.20, "aliases": ["water recycling rate", "water reuse rate"]},
+        "Water Stress Exposure": {"weight": 0.15, "aliases": ["water stress"]}
+      }
+    },
+    "Waste Management": {
+      "weight": 0.15,
+      "importance": "High",
+      "indicators": {
+        "Total Waste Generated": {"weight": 0.15, "aliases": ["waste generated"]},
+        "Hazardous Waste": {"weight": 0.25, "aliases": ["hazardous waste generated"]},
+        "Non-hazardous Waste": {"weight": 0.10, "aliases": ["non-hazardous waste generated"]},
+        "Waste Recycling / Recovery Rate": {"weight": 0.30, "aliases": ["waste recycling rate", "waste recovery rate"]},
+        "Waste Disposal / Landfill Rate": {"weight": 0.20, "aliases": ["waste disposal rate", "landfill rate"]}
+      }
+    },
+    "Air Quality Emissions": {
+      "weight": 0.20,
+      "importance": "Very High",
+      "indicators": {
+        "NOx Emissions": {"weight": 0.25, "aliases": ["nox total emissions"]},
+        "SOx Emissions": {"weight": 0.25, "aliases": ["sox total emissions"]},
+        "Particulate Matter (PM10/PM2.5)": {"weight": 0.30, "aliases": ["dust total emissions"]},
+        "Other Air Pollutants": {"weight": 0.10, "aliases": ["other air pollutants"]},
+        "Air Emission Intensity": {"weight": 0.10, "aliases": ["air emission intensity"]}
+      }
+    }
+  },
+  "benchmarks": {},
+  "temporary_scoring": {
+    "method": "previous_period_comparison",
+    "minimum_environment_coverage": 0.50,
+    "unchanged_score": 50,
+    "direction_rule": "lower_is_better or higher_is_better",
+    "redistribution": "disclosed_over_scored_group_weight",
+    "status_label": "Temporary"
+  }
+}
