@@ -1,0 +1,52 @@
+{
+  "indicator": "Dust concentration",
+  "active_version": "v001",
+  "versions": [
+    {
+      "version": "v001",
+      "model_name": "SARIMA / SARIMAX",
+      "target_indicator": "Dust concentration",
+      "trained_at": "2026-11-20T22:24:09.907475+00:00",
+      "dataset_version": "a6fabc3707d265d1",
+      "training_period": [
+        "2019-01",
+        "2021-06"
+      ],
+      "number_of_records": 30,
+      "train_records": 21,
+      "validation_records": 4,
+      "test_records": 5,
+      "features": [
+        "monthly_value"
+      ],
+      "hyperparameters": {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          12
+        ]
+      },
+      "evaluation": {
+        "validation": {
+          "MAE": 37.68128265739456,
+          "RMSE": 48.7917531630271,
+          "MAPE": 196.92442565601306
+        },
+        "test": {
+          "MAE": 7.178071384058859,
+          "RMSE": 8.748707366633022,
+          "MAPE": 159.97294122249252
+        }
+      },
+      "artifact": "forecasting\\bc754d9a9cbf5c4a\\v001.joblib",
+      "training_dataset": "data\\training\\bc754d9a9cbf5c4a_forecast_v001.csv",
+      "status": "Active"
+    }
+  ]
+}

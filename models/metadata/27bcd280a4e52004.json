@@ -1,0 +1,99 @@
+{
+  "indicator": "NOx concentration",
+  "active_version": "v003",
+  "versions": [
+    {
+      "version": "v001",
+      "model_name": "IsolationForest with StandardScaler",
+      "target_indicator": "NOx concentration",
+      "trained_at": "2026-11-20T21:23:15.553606+00:00",
+      "dataset_version": "f53c6d75b500df16",
+      "training_period": [
+        "2019-Jan",
+        "2020-Dec"
+      ],
+      "number_of_records": 21,
+      "train_records": 14,
+      "validation_records": 3,
+      "test_records": 4,
+      "features": [
+        "log1p(value)"
+      ],
+      "hyperparameters": {
+        "n_estimators": 200,
+        "contamination": 0.1,
+        "random_state": 42
+      },
+      "evaluation": {
+        "validation_anomaly_rate": 1.0,
+        "test_anomaly_rate": 1.0,
+        "evaluation_note": "Unsupervised holdout alert rates; no labels are available, so accuracy metrics are not applicable."
+      },
+      "artifact": "anomaly_detection\\27bcd280a4e52004\\v001.joblib",
+      "training_dataset": "data\\training\\27bcd280a4e52004_v001.csv",
+      "status": "Archived"
+    },
+    {
+      "version": "v002",
+      "model_name": "IsolationForest with StandardScaler",
+      "target_indicator": "NOx concentration",
+      "trained_at": "2026-11-20T21:33:07.466734+00:00",
+      "dataset_version": "f53c6d75b500df16",
+      "training_period": [
+        "2019-Jan",
+        "2020-Dec"
+      ],
+      "number_of_records": 21,
+      "train_records": 14,
+      "validation_records": 3,
+      "test_records": 4,
+      "features": [
+        "log1p(value)"
+      ],
+      "hyperparameters": {
+        "n_estimators": 200,
+        "contamination": 0.1,
+        "random_state": 42
+      },
+      "evaluation": {
+        "validation_anomaly_rate": 1.0,
+        "test_anomaly_rate": 1.0,
+        "evaluation_note": "Unsupervised holdout alert rates; no labels are available, so accuracy metrics are not applicable."
+      },
+      "artifact": "anomaly_detection\\27bcd280a4e52004\\v002.joblib",
+      "training_dataset": "data\\training\\27bcd280a4e52004_v002.csv",
+      "status": "Archived"
+    },
+    {
+      "version": "v003",
+      "model_name": "IsolationForest with StandardScaler",
+      "target_indicator": "NOx concentration",
+      "trained_at": "2026-11-20T22:20:29.544597+00:00",
+      "dataset_version": "7911321f4d8d11bd",
+      "training_period": [
+        "2019-Jan",
+        "2020-Dec"
+      ],
+      "number_of_records": 24,
+      "train_records": 16,
+      "validation_records": 4,
+      "test_records": 4,
+      "features": [
+        "log1p(value)"
+      ],
+      "hyperparameters": {
+        "n_estimators": 200,
+        "contamination": 0.05,
+        "random_state": 42
+      },
+      "evaluation": {
+        "validation_anomaly_rate": 0.0,
+        "test_anomaly_rate": 0.0,
+        "evaluation_note": "Unsupervised holdout alert rates; no labels are available, so accuracy metrics are not applicable."
+      },
+      "artifact": "anomaly_detection\\27bcd280a4e52004\\v003.joblib",
+      "training_dataset": "data\\training\\27bcd280a4e52004_v003.csv",
+      "status": "Active"
+    }
+  ]
+}
